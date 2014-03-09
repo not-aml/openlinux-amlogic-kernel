@@ -1,0 +1,12 @@
+#
+# Video output configuration
+#
+menu "Amlogic LCD External driver"
+
+config AML_LCD_EXTERN
+	tristate "LCD External driver"
+	default y
+	help  
+		lcd exteranl driver
+
+endmenu

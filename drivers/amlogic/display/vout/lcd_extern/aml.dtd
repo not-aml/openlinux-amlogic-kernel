@@ -1,0 +1,21 @@
+#ifdef CONFIG_AML_LCD_EXTERN
+//$$ DEVICE="lcd_extern"
+//$$ L2 PROP_STR = "status"
+	lcd_extern{
+		compatible = "amlogic,lcd_extern";
+		status = "disabled";
+
+//$$ DEVICE = "lcd_extern_tc101"
+//$$ L2 PROP_STR = "i2c_bus"
+//$$ L2 PROP_U32 = "reg"
+//$$ L2 PROP_STR = "status"
+		lcd_extern_tc101{
+			dev_name ="lcd_tc101";
+			type = <0>;	/** lcd_extern_driver type: 0=i2c, 1=spi */
+			address = <0x7e>;
+			i2c_bus = "i2c_bus_a";
+			status = "disabled";
+		};
+	};
+
+#endif
