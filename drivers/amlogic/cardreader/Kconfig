@@ -1,0 +1,36 @@
+#
+# cardreader subsystem configuration
+#
+
+menu "Amlogic Card support"
+
+config CARDREADER
+	bool "Card reader support "
+	default n
+
+config SD_MMC
+	bool "SD/MMC card driver support"
+	default y
+	depends on CARDREADER
+
+config AM_ATA
+	bool "ATA/ATAPI driver support"
+	default n
+	depends on CARDREADER
+
+config CF
+	bool "CF card driver support"
+	default n
+	depends on AM_ATA
+
+config MS_MSPRO
+	bool "MS/MSPRO card driver support"
+	default n
+	depends on CARDREADER
+
+config XD
+	bool "XD card driver support"
+	default n
+	depends on CARDREADER
+
+endmenu
