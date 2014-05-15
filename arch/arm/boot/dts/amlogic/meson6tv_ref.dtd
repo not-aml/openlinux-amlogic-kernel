@@ -1,0 +1,268 @@
+/*
+ * Amlogic-MX REF Device Tree Source
+ *
+ * Copyright Amlogic 2013
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
+ */
+
+/dts-v1/;
+/{
+	compatible = "AMLOGIC,8726_MX";
+	model = "AMLOGIC";
+	interrupt-parent = <&gic>;
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <0x200>;
+		};
+
+		cpu@1 {
+			device_type = "cpu";
+			compatible = "arm,cortex-a9";
+			reg = <0x1>;
+		};
+	};
+
+	/*start memory config*/
+	memory {
+		device_type = "memory";
+		aml_reserved_start = <0x85000000>;
+		aml_reserved_end = <0x84000000>;
+		phys_offset = <0x80000000>;
+		linux,total-memory = <0x40000000>;
+	};
+
+	gic:interrupt-controller {
+	        compatible = "arm,cortex-a9-gic";
+	        reg = <0xc4301000 0x1000
+	               0xc4300100 0x0100>;
+	        interrupt-controller;
+	        #interrupt-cells = <3>;
+	        #address-cells = <0>;
+	};
+
+	uart_ao {
+		compatible = "amlogic,aml_uart";
+		port_name = "uart_ao";
+		status = "okay";
+		dev_name = "uart_ao";
+		pinctrl-names = "default";
+		pinctrl-0 = <&ao_uart_pins>;
+	};
+
+	uart_0 {
+		compatible = "amlogic,aml_uart";
+		port_name = "uart_a";
+		status = "okay";
+		dev_name = "uart_0";
+		pinctrl-names = "default";
+	};
+
+	uart_1 {
+		compatible = "amlogic,aml_uart";
+		port_name = "uart_b";
+		status = "disabled";
+		dev_name = "uart_1";
+	};
+
+	uart_2 {
+		compatible = "amlogic,aml_uart";
+		port_name = "uart_c";
+		status = "disabled";
+		dev_name = "uart_2";
+	};
+
+	uart_3 {
+		compatible = "amlogic,aml_uart";
+		port_name = "uart_d";
+		status = "ok";
+		dev_name = "uart_3";
+	};
+
+	lvds {
+		compatible = "amlogic,lvds";
+		status = "okay";
+		basic_setting = <1920 1080 2200 1125 16 9 127 203 2 8>; /**  hactive,vactive,hperiod,vperiod,hstart,vstart, */
+		/**  hratio,vratio,screen_width,screen_height,lvd_type,lcd bit */
+		delay_setting = <500 50 20 20 50 0 0 200>;  /** CLK ON/OFF,PWM ON/OFF,PANEL_PWR ON/OFF,BL ON/OFF delay */
+	};
+
+	mesonvout {
+		compatible = "amlogic,mesonvout";
+		dev_name = "mesonvout";
+		status = "okay";
+	};
+
+	mesonfb {
+		compatible = "amlogic,mesonfb";
+		dev_name = "mesonfb";
+		status = "okay";
+		reserve-memory = <0x01000000 0x00100000>;
+		vmode = <2>; /*0:VMODE_720P 1:VMODE_LCD  2:VMODE_LVDS_1080P*/
+		display_size_default = <1920 1080 1920 2160 32>;
+	};
+
+	aml_pm {
+		compatible = "amlogic,pm";
+		dev_name = "aml_pm";
+		status = "okay";
+	};
+
+	cpufreq-meson {
+		compatible = "amlogic,cpufreq-meson";
+		status = "okay";
+	};
+
+
+	i2c@c1108500 { /*I2C-A*/
+		compatible = "amlogic,aml_i2c";
+		dev_name = "i2c-A";
+		status = "ok";
+		reg = <0xC1108500 0x20>;
+		device_id = <1>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&a_i2c_master>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+
+	i2c@c11087c0 { /*I2C-B*/
+		compatible = "amlogic,aml_i2c";
+		dev_name = "i2c-B";
+		status = "ok";
+		reg = <0xC11087C0 0x20>;
+		device_id = <2>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&b_i2c_master>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+
+	audio {
+		compatible = "amlogic,aml-audio";
+		dev_name = "aml-audio.0";
+	};
+
+	audio_dai {
+		compatible = "amlogic,aml-dai";
+		dev_name = "aml-dai.0";
+	};
+
+
+	dummy_codec_audio {
+		status = "okay";
+		compatible = "amlogic,aml_dummy_codec_audio";
+		dev_name = "aml_dummy_codec_audio.0";
+		pinctrl-names = "dummy_codec_audio";
+		pinctrl-0 = <&aml_dummy_codec_pins>;
+	};
+
+	dummy_codec {
+		status = "okay";
+		compatible = "amlogic,aml_dummy_codec";
+		dev_name = "dummy_codec.0";
+	};
+
+	saradc {
+		compatible = "amlogic,saradc";
+		status = "okay";
+	};
+
+	adc_keypad {
+		compatible = "amlogic,adc_keypad";
+		status = "okay";
+		key_num = <5>;
+		name_len = <20>;
+		key_name = "menu","vol-","vol+","back","home";
+		key_code = <139 114 115 158 102>;
+		key_chan = <4 4 4 4 4>;
+		key_val = <9 275 150 392 513>;
+		key_tolerance = <40 40 40 40 40>;
+	};
+
+	key_input {
+		compatible = "amlogic,key_input";
+		status = "okay";
+		scan_period = <20>;
+		fuzz_time = <60>;
+		key_code_list = <116>;
+		key_num = <1>;
+		config = <0>;
+	};
+
+	meson-remote {
+		compatible = "amlogic,aml_remote";
+		dev_name = "meson-remote";
+		status = "okay";
+		ao_baseaddr = <0xf3100480>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&remote_pins>;
+	};
+
+	meson-eth {
+		compatible = "amlogic,meson-eth";
+		dev_name = "meson-eth";
+		status = "okay";
+		ethbaseaddr = <0xf3610000>;
+		interruptnum = <40>;
+	};
+
+	gpio:gpio {
+		compatible = "amlogic,m6tv-gpio";
+		dev_name = "gpio";
+		#gpio-cells = <2>;
+	};
+
+	pinmux {
+		compatible = "amlogic,pinmux-m6tv";
+		dev_name = "pinmux";
+		#pinmux-cells = <2>;
+
+		ao_uart_pins:ao_uart {
+			amlogic,setmask = <10 0x1800>;
+			amlogic,pins = "GPIOAO_0", "GPIOAO_1";
+		};
+
+		a_i2c_master:a_i2c {
+			amlogic,setmask = <5 0xC0000000>;
+			amlogic,clrmask = <5 0x30000000>;
+			amlogic,pins = "GPIOZ_6","GPIOZ_7";
+		};
+
+		b_i2c_master:b_i2c {
+			amlogic,setmask = <5 0x0C000000>;
+			amlogic,clrmask = <5 0x03000000>;
+			amlogic,pins = "GPIOZ_8","GPIOZ_9";
+		};
+
+		aml_dummy_codec_pins:aml_dummy_codec_pins {
+			amlogic,setmask = <8 0x6A00000
+					   3 0x800000>;
+			amlogic,clrmask = <8 0x1461000
+					   1 0x1
+					   3 0x5400000
+					   7 0x10000000>;
+			amlogic,pins = "GPIOZ_14", "GPIOZ_15", "GPIOZ_16", "GPIOZ_17", "GPIOZ_19";
+		};
+
+		remote_pins:remote_pin {
+			amlogic,setmask = <10 0x1>;
+			amlogic,pins = "GPIOAO_7";
+		};
+	}; /* end of pinmux*/
+
+}; /* end of / */
+

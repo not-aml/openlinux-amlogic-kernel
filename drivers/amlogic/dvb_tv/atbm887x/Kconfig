@@ -1,0 +1,21 @@
+#
+# Atbm887x driver configuration
+#
+menuconfig AM_ATBM8869
+	tristate "ATBM8869 demod driver"
+	default n
+	depends on AM_DVB
+	help
+		Select to enable AM_ATBM8878 demod driver.
+
+if AM_ATBM8869
+
+config ATBM8869_TS_PARALLEL_MODE
+	bool "ATBM8869_TS_PARALLEL_MODE"
+	depends on AM_ATBM8869
+	default n
+	help
+	 select ATBM8869_TS_PARALLEL_MODE,default is ATBM8869_TS_SERIAL_MODE
+
+endif
+
