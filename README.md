@@ -1,10 +1,3 @@
-Important notice
-================
-
-Due to that fact I haven't configured my .gitignore as I should few files are missing from the releases (mainly pdfs), these files will be added soon without breaking the git timeline.
-
-===============
-
 This is an unofficial mirror of kernel sources from Amlogic official OpenLinux site http://openlinux.amlogic.com:8000/download/ARM
 
 
